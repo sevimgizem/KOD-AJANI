@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Kod Ajani - Robotik Kodlama Macerası</title>
+
+    <link
+        rel="stylesheet"
+        href="/KOD-AJANI/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ============================= -->
+    <!-- ÜST BAR -->
+    <!-- ============================= -->
+
+    <header class="top-bar">
+
+        <div class="logo">
+            🤖 <span>KOD AJANI</span>
+        </div>
+
+
+        <div class="player-info">
+
+            <div class="info-box">
+
+                <span>AJAN</span>
+
+                <strong id="playerName">
+                    ---
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>XP</span>
+
+                <strong id="xpText">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>BÖLÜM</span>
+
+                <strong id="chapterText">
+                    1 / 5
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="reset-btn"
+            onclick="resetGame()"
+        >
+            ↻ SIFIRLA
+        </button>
+
+    </header>
+
+
+
+    <!-- ============================= -->
+    <!-- OYUNCU İSMİ EKRANI -->
+    <!-- ============================= -->
+
+    <section
+        id="nameScreen"
+        class="screen"
+    >
+
+        <div class="welcome-box">
+
+            <div class="big-robot">
+                🤖
+            </div>
+
+
+            <div class="system-label">
+                SYSTEM ONLINE
+            </div>
+
+
+            <h1>
+                KOD AJANI
+            </h1>
+
+
+            <p>
+                Robotik Kodlama Görev Sistemi
+            </p>
+
+
+            <div class="line"></div>
+
+
+            <p class="instruction">
+                Göreve başlamadan önce ajan adını belirle.
+            </p>
+
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Ajan adını yaz..."
+                maxlength="15"
+            >
+
+
+            <button
+                class="start-btn"
+                onclick="startGame()"
+            >
+                SİSTEME GİR →
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- ANA HARİTA -->
+    <!-- ============================= -->
+
+    <main
+        id="mapScreen"
+        class="map-screen hidden"
+    >
+
+        <div class="map-header">
+
+            <div>
+
+                <div class="small-title">
+                    OPERASYON HARİTASI
+                </div>
+
+
+                <h1>
+                    TEKNOLOJİ AĞI
+                </h1>
+
+            </div>
+
+
+            <div class="progress-area">
+
+                <span id="progressText">
+                    0 / 20 GÖREV
+                </span>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        id="globalProgress"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ============================= -->
+        <!-- HARİTA -->
+        <!-- ============================= -->
+
+        <div
+            id="gameMap"
+            class="game-map"
+        >
+
+            <div class="map-grid"></div>
+
+
+            <div class="map-path path-1"></div>
+
+            <div class="map-path path-2"></div>
+
+            <div class="map-path path-3"></div>
+
+            <div class="map-path path-4"></div>
+
+
+            <!-- Bölümler JavaScript ile gelecek -->
+
+        </div>
+
+
+        <div class="map-tip">
+
+            💡 Açık bir bölge seç ve görevlerine başla.
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ============================= -->
+    <!-- BÖLÜM EKRANI -->
+    <!-- ============================= -->
+
+    <section
+        id="chapterScreen"
+        class="chapter-screen hidden"
+    >
+
+        <div class="chapter-container">
+
+
+            <button
+                class="back-btn"
+                onclick="backToMap()"
+            >
+                ← HARİTAYA DÖN
+            </button>
+
+
+
+            <div class="chapter-title-area">
+
+                <div
+                    id="chapterIcon"
+                    class="chapter-big-icon"
+                >
+                    🤖
+                </div>
+
+
+                <div>
+
+                    <div
+                        id="chapterNumber"
+                        class="small-title"
+                    >
+                        BÖLÜM 01
+                    </div>
+
+
+                    <h1 id="chapterTitle">
+                        KOD AJANI ÜSSÜ
+                    </h1>
+
+
+                    <p id="chapterDescription">
+                        ---
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BÖLÜM İLERLEMESİ -->
+
+            <div class="chapter-progress">
+
+                <div class="chapter-progress-info">
+
+                    <span>
+                        BÖLÜM İLERLEMESİ
+                    </span>
+
+
+                    <strong id="chapterProgressText">
+                        0 / 4
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar large">
+
+                    <div
+                        id="chapterProgressFill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- GÖREVLER -->
+
+            <div
+                id="missionsContainer"
+                class="missions-container"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- GÖREV MODALI -->
+    <!-- ============================= -->
+
+    <div
+        id="missionModal"
+        class="modal hidden"
+    >
+
+        <div class="mission-box">
+
+
+            <div class="mission-top">
+
+                <span id="missionNumber">
+                    GÖREV 01
+                </span>
+
+
+                <button
+                    onclick="closeMission()"
+                    class="close-btn"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+
+            <div
+                id="missionIcon"
+                class="mission-icon"
+            >
+                🧠
+            </div>
+
+
+
+            <h2 id="missionTitle">
+                Görev
+            </h2>
+
+
+
+            <p
+                id="missionQuestion"
+                class="mission-question"
+            >
+                ---
+            </p>
+
+
+
+            <div
+                id="missionOptions"
+                class="mission-options"
+            ></div>
+
+
+
+            <div
+                id="missionFeedback"
+                class="mission-feedback hidden"
+            ></div>
+
+
+
+            <button
+                id="continueBtn"
+                class="continue-btn hidden"
+                onclick="continueMission()"
+            >
+                DEVAM ET →
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- BÖLÜM TAMAMLANDI -->
+    <!-- ============================= -->
+
+    <div
+        id="completeModal"
+        class="modal hidden"
+    >
+
+        <div class="complete-box">
+
+            <div class="complete-icon">
+                🔓
+            </div>
+
+
+            <div class="system-label">
+                MISSION COMPLETE
+            </div>
+
+
+            <h2 id="completeTitle">
+                BÖLÜM TAMAMLANDI
+            </h2>
+
+
+            <p id="completeMessage">
+                Yeni bölümün kilidi açıldı.
+            </p>
+
+
+            <div class="reward">
+                ⭐ +100 XP
+            </div>
+
+
+            <button
+                class="continue-btn"
+                onclick="continueFromComplete()"
+            >
+                HARİTAYA DÖN →
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="/KOD-AJANI/script.js"></script>
+
+</body>
+
+</html>
